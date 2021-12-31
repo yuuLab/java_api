@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Spring API【Clean Architecture】and OpenApi(Swagger) -Sample Project-
+  description: >-
+    Springを用いたAPI開発例と、OpenApi(Swagger)によるAPIドキュメント管理サンプル
+tags:
+- name: "User"
+  description: "Operating user account"
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development server
+  - url: http://localhost:8003
+    description: Mock server (swagger-api)
+paths:
+  /account/{user_id}:
+    get:
+      tags:
+        - "User"
+      summary: "会員情報照会API"
+      description: "ユーザIDから会員情報を取得する。"
+      operationId: inquiryUserAccount
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "照会対象のユーザID"
+          example: "0000000000"
+      responses:
+        '200':
+          description: successed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_account_get'
+        '404':
+          description: not exist user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_not_exist_user'
+  /account:
+    post:
+      tags:
+      - "User"
+      summary: "会員登録API"
+      description: "会員登録を実施する。"
+      operationId: registerUserAccount
+      requestBody:
+        description: "会員登録に必要なリクエストパラメータ"
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/request_account'
+      responses:
+        '201':
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/request_account'
+components:
+  schemas:
+    request_account:
+      type: "object"
+      required:
+      - "first_name"
+      - "last_name"
+      properties:
+        first_name:
+          type: "string"
+          example: "Firstname"
+          description: "名前(名)"
+        last_name:
+          type: "string"
+          example: "Lastname"
+          description: "苗字(姓)"
+        email:
+          type: "string"
+          example: "sample@sample.com"
+          description: "メールアドレス(形式:XXX@XXX)"
+        mobile_number:
+          type: "string"
+          example: "000-1234-5678"
+          description: "携帯電話番号(形式:NNN-NNNN-NNNN)"
+    response_account_get:
+      type: "object"
+      properties:
+        user_id:
+          type: "string"
+          example: "0000000000"
+        first_name:
+          type: "string"
+          example: "Firstname"
+        last_name:
+          type: "string"
+          example: "Lastname"
+        email:
+          type: "string"
+          example: "sample@sample.com"
+        mobile_number:
+          type: "string"
+          example: "000-1234-5678"
+    error_not_exist_user:
+      type: "object"
+      properties:
+        error_code:
+          type: "string"
+          example: "E000001"
+        error_message:
+          type: "string"
+          example: "会員が存在しません。"
