@@ -15,7 +15,7 @@ servers:
 security:
 - apiKey: []
 paths:
-  /account/{user_id}:
+  /user/{user_id}:
     get:
       tags:
         - "User"
@@ -28,8 +28,8 @@ paths:
           required: true
           schema:
             type: string
-          description: "照会対象のユーザID"
-          example: "0000000000"
+          description: "照会対象のユーザID(17桁)"
+          example: "00000000000000000"
       responses:
         '200':
           description: successed
@@ -43,7 +43,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error_not_exist_user'
-  /account:
+  /user:
     post:
       tags:
       - "User"
@@ -94,12 +94,16 @@ components:
           type: "string"
           example: "000-1234-5678"
           description: "携帯電話番号(形式:NNN-NNNN-NNNN)"
+        gender_code:
+          type: "string"
+          example: "0"
+          descriptoin: "性別コード(0:男性、1:女性、2:その他)"
     response_account_get:
       type: "object"
       properties:
         user_id:
           type: "string"
-          example: "0000000000"
+          example: "00000000000000000"
         first_name:
           type: "string"
           example: "Firstname"
@@ -112,6 +116,9 @@ components:
         mobile_number:
           type: "string"
           example: "000-1234-5678"
+        gender_code:
+          type: "string"
+          example: "2"
     error_not_exist_user:
       type: "object"
       properties:

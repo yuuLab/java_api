@@ -1,16 +1,13 @@
-package com.yuuLab.api.domain.entity;
+package com.yuuLab.api.logic.input;
 
-import com.yuuLab.api.domain.model.UserId;
 import com.yuuLab.api.domain.model.constants.Gender;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
+@Builder
 @Getter
-@Setter
-public class UserEntity {
-	
-	private UserId userId;
+public class UserCreateInput implements InputData {
 	
 	private String firstName;
 	
@@ -20,5 +17,6 @@ public class UserEntity {
 	
 	private String mobileNumber;
 	
-	private Gender gender;
+	private Gender genderCode;
+
 }
